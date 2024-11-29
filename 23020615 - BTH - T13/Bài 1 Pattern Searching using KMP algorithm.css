@@ -1,0 +1,34 @@
+#include <cmath>
+#include <cstdio>
+#include <string>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */ 
+    string text, pattern;
+    getline(cin, text);
+    getline(cin, pattern);
+    
+    int index = 0, size = pattern.length(), n = text.length();
+    int pos = 0;
+    while (index < n) {
+        if (text[index] == pattern[pos]) {
+            pos++;
+            if (pos == size) {
+                pos = 0;
+                cout << "Pattern found at index " << index - size + 1 << endl;
+            }
+            index++;
+        } else if (text[index] == pattern[0]) {
+            pos = 0;
+        } else {
+            pos = 0;
+            index++;
+        }
+    }
+    
+    return 0;
+}

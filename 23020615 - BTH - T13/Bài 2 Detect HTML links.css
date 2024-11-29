@@ -1,0 +1,46 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <algorithm>
+#include <regex>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+    string line, lines;
+
+    for (int i = 0; i < n; i++) {
+        string line;
+        getline(cin, line);
+        lines += line + "\n";
+    }
+
+    regex linkRegex(R"(<a.*?href=["](.*?)["].*?>(.*?)<\/a>)");
+    regex htmlTag("<.*?>");
+    regex whitespace("^\\s+|\\s+$");
+    
+    smatch match;
+    
+    auto begin = sregex_iterator(lines.begin(), lines.end(), linkRegex);
+    auto end = sregex_iterator();
+    
+    for (auto it = begin; it != end; ++it) {
+        match = *it;
+        
+        string href = match[1].str();
+        string text = match[2].str();
+        
+        text = regex_replace(text, htmlTag, "");
+
+        //loai bo khoang thua
+        href = regex_replace(href, whitespace , "");
+        text = regex_replace(text, whitespace, "");
+
+        cout << href << "," << text << endl;
+    }
+    return 0;
+}

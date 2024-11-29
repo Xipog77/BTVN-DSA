@@ -1,0 +1,37 @@
+#include <iostream>
+#include <regex>
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+    string line, lines;
+
+    for (int i = 0; i < n; i++) {
+        string line;
+        getline(cin, line);
+        lines += line + "\n";
+    }
+
+    set<string> mails;
+    regex Regex(R"([\w\.]+@(?:\w+\.)+\w+)");
+    auto begin = sregex_iterator(lines.begin(), lines.end(), Regex);
+    auto end = sregex_iterator();
+
+    for (auto it = begin; it != end; ++it) {
+        mails.insert(it->str());
+    }
+    vector<string> ans(mails.begin(),mails.end());
+    sort(ans.begin(),ans.end());
+    for (int i = 0; i < ans.size() - 1; i++) {
+        cout << ans[i] << ";";
+    }
+    cout << ans[ans.size() - 1];
+
+    return 0;
+}
